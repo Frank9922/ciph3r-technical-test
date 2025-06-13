@@ -16,8 +16,6 @@ class ProductSeeder extends Seeder
     {
         $currencies = Currency::all();
 
-        \Log::info($currencies);
-
         if($currencies->isEmpty()) {
             $this->command->error('No currencies found. Please seed currencies first.');
             return;
@@ -56,7 +54,6 @@ class ProductSeeder extends Seeder
 
             $result = Product::create($product);
             
-            \Log::info($result);
         }
     }
 }
