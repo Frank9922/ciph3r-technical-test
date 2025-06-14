@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\Product\CreateProductDTO;
 use App\DTOs\Product\UpdateProductDTO;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductService {
@@ -73,6 +74,22 @@ class ProductService {
         }
     }
 
+    public function createProductPrice(Product $product, CreateProductPriceDTO $dto) : ProductPrice
+    {
+        try {
+
+            $productPrice = ProductPrice::create($dto->toArray());
+
+            $productPrice->load($this->relations);
+
+            return $productPrice;
+
+        } catch(\Exception $e) {
+
+            throw new \RuntimeException($e->getMessage());
+
+        }
+    }
 }
 
 ?>

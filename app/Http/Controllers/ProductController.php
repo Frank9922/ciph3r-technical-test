@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\StoreProductPriceRequest;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Services\ApiResponse;
+use App\Services\ProductPriceService;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
     public function __construct(
-        private ProductService $productService
+        private ProductService $productService,
+        private ProductPriceService $productPriceService
     ) {}
 
     public function index() : JsonResponse 
@@ -88,5 +91,34 @@ class ProductController extends Controller
         }
     }
 
+    public function prices(Product $product) : JsonResponse 
+    {
+        try {
+
+            return ApiResponse::success([
+                'prices' => $this->productPriceService->getPricesByProduct($product)
+            ]);
+
+        } catch(\RuntimeException $e) {
+
+            return ApiResponse::error($e->getMessage());
+
+        }
+    }
+
+    public function storePrice(StoreProductPriceRequest $request, Product $product) : JsonResponse 
+    {
+        try {
+
+            $newProductPrice = $this->productPriceService->createProductPrice($request->toCreateProductPriceDTO());
+
+            return ApiResponse::success(['newProductPrice' => $newProductPrice], 'Product price created successfully');
+
+        } catch(\RuntimeException $e) {
+
+            return ApiResponse::error($e->getMessage());
+
+        }
+    }
 
 }
