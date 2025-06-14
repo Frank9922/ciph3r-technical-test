@@ -38,7 +38,7 @@ class ProductController extends Controller
 
             $newProduct = $this->productService->createProduct($request->toCreateProductDTO());
 
-            return ApiResponse::success(['newProduct' => $newProduct], 'Product created successfully');
+            return ApiResponse::success(['newProduct' => $newProduct], 'Product created successfully', 201);
 
         } catch(\RuntimeException $e) {
 
@@ -67,7 +67,7 @@ class ProductController extends Controller
 
             $updateProduct = $this->productService->updateProduct($product, $request->toUpdateProductDTO());
 
-            return ApiResponse::success(['product' => $updateProduct], 'Product updated successfully');
+            return ApiResponse::success(['product' => $updateProduct], 'Product updated successfully', 201);
 
         } catch(\RuntimeException $e) {
 
@@ -112,7 +112,7 @@ class ProductController extends Controller
 
             $newProductPrice = $this->productPriceService->createProductPrice($request->toCreateProductPriceDTO());
 
-            return ApiResponse::success(['newProductPrice' => $newProductPrice], 'Product price created successfully');
+            return ApiResponse::success(['newProductPrice' => $newProductPrice], 'Product price created successfully', 200);
 
         } catch(\RuntimeException $e) {
 
